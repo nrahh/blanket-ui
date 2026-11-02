@@ -5,28 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Generative Branching Tree</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a0a; }
-  canvas { display: block; width: 100vw; height: 100vh; }
-  .label {
-    position: fixed;
-    top: 20px;
-    left: 24px;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: rgba(200, 149, 108, 0.5);
-    z-index: 10;
-    pointer-events: none;
-    user-select: none;
-  }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+        background: #0a0a0a;
+    }
+    canvas {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+    }
+    .label {
+        position: fixed;
+        top: 20px;
+        left: 24px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(200, 149, 108, 0.5);
+        z-index: 10;
+        pointer-events: none;
+        user-select: none;
+    }
 </style>
 </head>
 <body>
 <canvas id="canvas"></canvas>
 <script>
+
 (function() {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
@@ -561,12 +572,6 @@
   var windForce = 0; // -1 to 1, based on mouse x relative to tree
   var shakeAmount = 0;
 
-  canvas.addEventListener('mousemove', function(e) {
-    mouseX = e.clientX; mouseY = e.clientY; mouseActive = true;
-    windForce = (mouseX - W / 2) / (W / 2); // -1 left, +1 right
-  });
-  canvas.addEventListener('mouseleave', function() { mouseActive = false; windForce = 0; });
-  canvas.addEventListener('click', function() { shakeAmount = 1.0; });
   canvas.addEventListener('touchstart', function(e) {
     e.preventDefault(); mouseActive = true;
     mouseX = e.touches[0].clientX; mouseY = e.touches[0].clientY;
