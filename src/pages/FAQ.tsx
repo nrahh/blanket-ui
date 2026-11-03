@@ -58,7 +58,7 @@ export default function FAQ() {
                                 transition={{duration: 0.4, ease: "easeInOut"}}
                                 className="w-full overflow-hidden"
                             >
-                                <p className="text-white/50 text-base pt-4">{item[2]}</p>
+                                <p className="text-white/50 text-base pt-4">{item[1]}</p>
                             </motion.div>
                         </motion.div>
                     ))
