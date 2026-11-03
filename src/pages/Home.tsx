@@ -121,7 +121,7 @@ export default function Home() {
                 {
                     items.map((item, index) => (
                         <div
-                            key={index} className="w-full flex flex-col h-180">
+                            key={index} className="w-full flex flex-col h-160">
                             <motion.div
                                 initial={{opacity: 0}} whileInView={{opacity: 1}} transition={{duration: 1, ease: "easeInOut"}}
                                 className="w-full min-h-80 flex flex-col sm:flex-row justify-between gap-5 rounded-lg sticky top-30">

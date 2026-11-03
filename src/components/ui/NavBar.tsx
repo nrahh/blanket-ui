@@ -6,7 +6,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 
 const navbar_items = [
     ["normal", "/", "Home"],
-    ["normal", "/designs", "Components"],
+    ["normal", "/designs", "Designs"],
     ["normal", "/about", "About"],
     ["normal", "/legal", "Legal"],
     ["normal", "/faq", "FAQ"],
