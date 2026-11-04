@@ -1,4 +1,5 @@
 import { motion } from "motion/react"
+import { Routes, Route, useNavigate } from "react-router-dom"
 
 const manifests = import.meta.glob("../designs/*/manifest.json", {
     eager: true,
@@ -11,18 +12,25 @@ const images = import.meta.glob("../designs/*/image.png", {
     import: "default"
 })
 
+const demos = import.meta.glob("../designs/*/demo.tsx", {
+    eager: true
+})
+
 const designs = Object.entries(manifests).map(([path, manifest]: [string, any]) => {
     const folder = path.replace("/manifest.json", "")
-    const imagePath = `${folder}/image.png`
+    const id = folder.split("/").pop()
 
     return {
         ...manifest,
-        image: images[imagePath] as string,
-        id: folder.split("/").pop()
+        image: images[`${folder}/image.png`] as string,
+        demo: demos[`${folder}/demo.tsx`] as any,
+        id
     }
 })
 
-export default function Designs() {
+function DesignsGrid() {
+    const navigate = useNavigate()
+
     return (
         <div className="w-full h-fit min-h-300 flex flex-col p-10 pt-30 gap-15">
             <motion.div
@@ -51,7 +59,14 @@ export default function Designs() {
                             delay: index * 0.08,
                             ease: "easeOut"
                         }}
-                        className="flex flex-col gap-4 min-w-0"
+                        onClick={() => {
+                            if (design["create-demo-router"]) {
+                                navigate(`/designs/${design.id}`)
+                            }
+                        }}
+                        className={`flex flex-col gap-4 min-w-0 ${
+                            design["create-demo-router"] ? "cursor-pointer" : ""
+                        }`}
                     >
                         <div className="w-full aspect-video rounded-xl bg-white/5 overflow-hidden">
                             <img
@@ -73,5 +88,23 @@ export default function Designs() {
                 ))}
             </div>
         </div>
+    )
+}
+
+export default function Designs() {
+    return (
+        <Routes>
+            <Route path="/" element={<DesignsGrid />} />
+
+            {designs
+                .filter(design => design["create-demo-router"] && design.demo?.default)
+                .map(design => (
+                    <Route
+                        key={design.id}
+                        path={design.id!}
+                        element={<design.demo.default />}
+                    />
+                ))}
+        </Routes>
     )
 }
